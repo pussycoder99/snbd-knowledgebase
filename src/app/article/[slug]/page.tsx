@@ -1,15 +1,16 @@
 import { getArticleBySlug, getCategories } from '@/lib/data';
 import { notFound } from 'next/navigation';
-import { Calendar, Tag, Printer, Link as LinkIcon, ThumbsUp, ThumbsDown } from 'lucide-react';
+import { Calendar, Tag } from 'lucide-react';
 import { format } from 'date-fns';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/breadcrumbs';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { FeedbackVote } from '@/components/feedback-vote';
 import { AiSummary } from '@/components/ai-summary';
 import { Separator } from '@/components/ui/separator';
+import { ArticleActions } from '@/components/article-actions';
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
   const article = await getArticleBySlug(params.slug);
@@ -74,23 +75,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
         </article>
 
         <aside className="lg:col-span-3 space-y-8">
-            <Card>
-                <CardHeader>
-                    <CardTitle>Article Actions</CardTitle>
-                </CardHeader>
-                <CardContent className="flex flex-col space-y-2">
-                    <Button variant="outline" onClick={() => {
-                        if (typeof window !== 'undefined') {
-                            navigator.clipboard.writeText(window.location.href);
-                        }
-                    }}>
-                        <LinkIcon className="mr-2 h-4 w-4" /> Copy Link
-                    </Button>
-                     <Button variant="outline" onClick={() => typeof window !== 'undefined' && window.print()}>
-                        <Printer className="mr-2 h-4 w-4" /> Print Article
-                    </Button>
-                </CardContent>
-            </Card>
+            <ArticleActions />
 
           <Card>
             <CardHeader>
